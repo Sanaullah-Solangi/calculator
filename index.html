@@ -21,17 +21,8 @@
         <input
           type="text"
           readonly
-          value="%"
-          onclick="addNumber('%')"
-          id="operator"
-          onmousedown="(mouseDown(this))"
-          onmouseup="(mouseUp(this))"
-        />
-        <input
-          type="text"
-          readonly
           value="AC"
-          onclick="addOperator('AC')"
+          onclick="delValue()"
           id="operator"
         />
         <input
@@ -39,6 +30,13 @@
           readonly
           value="CE"
           onclick="addOperator('CE')"
+          id="operator"
+        />
+        <input
+          type="text"
+          readonly
+          value="%"
+          onclick="addOperator('%')"
           id="operator"
         />
 
@@ -152,22 +150,22 @@
         <input
           type="text"
           readonly
-          value="+/-"
-          onclick="addNumber('+/-')"
-          id="operator"
-        />
-        <input
-          type="text"
-          readonly
-          value="0"
-          onclick="addNumber('0')"
+          value="."
+          onclick="addNumber('.')"
           id="number"
         />
         <input
+        type="text"
+        readonly
+        value="0"
+        onclick="addNumber('0')"
+        id="number"
+        />
+        <input
           type="text"
           readonly
-          value="."
-          onclick="addNumber('.')"
+          value="00"
+          onclick="addNumber('00')"
           id="number"
         />
         <input type="text" readonly value="=" onclick="sum()" class="equalTo" />

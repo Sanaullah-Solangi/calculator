@@ -1,41 +1,39 @@
-//!=============== Calculator ===============
-//? ASCY NUMS = "33 to 47";
-//* getting values in variables
+//! getting values in variables
 var display = document.querySelector(".display");
-var currentNum = document.querySelector(".currentInput");
 var currentNum = document.querySelector(".currentInput");
 var prevNum = document.querySelector(".prevInput");
 var currentOperator = document.querySelector(".currentOperator");
-
-//! function to get number
-function addNumber(num) {
-  currentNum.innerHTML += num;
+//! getting numbers
+function addNumber(num = 0) {
+  if (currentNum.innerHTML == "0") {
+    currentNum.innerHTML = num;
+  } else {
+    currentNum.innerHTML += num;
+  }
 }
+addNumber();
 
-//! function to add operator
+//! getting operators
 function addOperator(ope) {
-  //? condition for clear display
   if (ope == "CE") {
     currentNum.innerHTML = "";
     currentOperator.innerHTML = "";
     prevNum.innerHTML = "";
-  }
-  //? condition for replace operator
-  else {
+  } else {
     currentOperator.innerHTML = ope;
   }
-  //? condition for replace currentNum by prevNum
+  // transfering current number to previous number
   if (prevNum.innerHTML == "") {
     prevNum.innerHTML = currentNum.innerHTML;
   }
   currentNum.innerHTML = "";
 }
 
-//! function to cunclude result
+//! calculating the result
 function sum() {
   var result = "";
-  var num1 = parseFloat(prevNum.innerHTML);
-  var num2 = parseFloat(currentNum.innerHTML);
+  var num1 = Number(prevNum.innerHTML);
+  var num2 = Number(currentNum.innerHTML);
   if (currentOperator.innerHTML == "+") {
     result = num1 + num2;
   } else if (currentOperator.innerHTML == "-") {
@@ -44,8 +42,27 @@ function sum() {
     result = num1 * num2;
   } else if (currentOperator.innerHTML == "/") {
     result = num1 / num2;
+  } else if (currentOperator.innerHTML == "%") {
+    result = num1 % num2;
   }
   prevNum.innerHTML = "";
   currentOperator.innerHTML = "";
-  currentNum.innerHTML = result;
+  currentNum.innerHTML = result.toFixed(2).toString();
+}
+
+//! delete single value from last
+function delValue() {
+  if (currentNum.innerHTML) {
+    currentNum.innerHTML = currentNum.innerHTML.slice(
+      0,
+      currentNum.innerHTML.length - 1
+    );
+  } else if (currentNum.innerHTML == "" && prevNum.innerHTML == "") {
+    currentOperator = "";
+  } else {
+    prevNum.innerHTML = prevNum.innerHTML.slice(
+      0,
+      prevNum.innerHTML.length - 1
+    );
+  }
 }
