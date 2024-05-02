@@ -47,7 +47,7 @@ function sum() {
   }
   prevNum.innerHTML = "";
   currentOperator.innerHTML = "";
-  currentNum.innerHTML = result.toFixed(2).toString();
+  currentNum.innerHTML = result.toString();
 }
 
 //! delete single value from last
