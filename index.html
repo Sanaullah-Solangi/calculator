@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <!--!========================== Calculater ==========================-->
+    <div class="calculatorContainer">
+      <!--*==== display ====-->
+      <div class="display">
+        <p class="prevInput"></p>
+        <p class="currentOperator"></p>
+        <p class="currentInput"></p>
+      </div>
+      <!--*==== calculator buttons ====-->
+      <!--! row 1st -->
+      <div class="firstRow row">
+        <input
+          type="text"
+          readonly
+          value="%"
+          onclick="addNumber('%')"
+          id="operator"
+          onmousedown="(mouseDown(this))"
+          onmouseup="(mouseUp(this))"
+        />
+        <input
+          type="text"
+          readonly
+          value="AC"
+          onclick="addOperator('AC')"
+          id="operator"
+        />
+        <input
+          type="text"
+          readonly
+          value="CE"
+          onclick="addOperator('CE')"
+          id="operator"
+        />
+
+        <input
+          type="text"
+          readonly
+          value="/"
+          onclick="addOperator('/')"
+          id="operator"
+        />
+      </div>
+
+      <!--! row 2nd -->
+      <div class="secondRow row">
+        <input
+          type="text"
+          readonly
+          value="9"
+          onclick="addNumber('9')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="8"
+          onclick="addNumber('8')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="7"
+          onclick="addNumber('7')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="*"
+          onclick="addOperator('*')"
+          id="operator"
+        />
+      </div>
+
+      <!--! row 3rd -->
+      <div class="thirdRow row">
+        <input
+          type="text"
+          readonly
+          value="6"
+          onclick="addNumber('6')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="5"
+          onclick="addNumber('5')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="4"
+          onclick="addNumber('4')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="+"
+          onclick="addOperator('+')"
+          id="operator"
+        />
+      </div>
+
+      <!--! row 4rth -->
+      <div class="fourthRow row">
+        <input
+          type="text"
+          readonly
+          value="3"
+          onclick="addNumber('3')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="2"
+          onclick="addNumber('2')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="1"
+          onclick="addNumber('1')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="-"
+          onclick="addOperator('-')"
+          id="operator"
+        />
+      </div>
+
+      <!--! row 5th -->
+      <div class="fourthRow row">
+        <input
+          type="text"
+          readonly
+          value="+/-"
+          onclick="addNumber('+/-')"
+          id="operator"
+        />
+        <input
+          type="text"
+          readonly
+          value="0"
+          onclick="addNumber('0')"
+          id="number"
+        />
+        <input
+          type="text"
+          readonly
+          value="."
+          onclick="addNumber('.')"
+          id="number"
+        />
+        <input type="text" readonly value="=" onclick="sum()" class="equalTo" />
+      </div>
+    </div>
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
