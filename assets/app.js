@@ -1,4 +1,4 @@
-//* FIRST STEP : 👇
+//*  New Calculator Code
 //! GETTING ELEMENTS
 
 var display = document.querySelector(".display"); // CALCULATOR DISPLAY
@@ -109,6 +109,7 @@ function sum() {
   storingHistory.innerHTML += `<p class="historyPart">${prevValue} <br> <span class='mainResult'>${result}</span></p>`;
 }
 
+//*  Old Calculator Code (commented out)
 /*
 //* SECOND STEP : 👇
 //! GETTING INPUT VALUES
