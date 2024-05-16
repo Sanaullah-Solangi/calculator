@@ -1,22 +1,26 @@
 //* FIRST STEP : 👇
 //! GETTING ELEMENTS
-var display = document.querySelector(".display");
-var currentNum = document.querySelector(".currentInput");
-var prevNum = document.querySelector(".prevInput");
-var currentOperator = document.querySelector(".currentOperator");
-var storingHistory = document.querySelector(".myHistory"); // DIV FOR HISTORY
-var toggleBTns = document.querySelector(".historyToggleBtns");
-var collectingHistory = "";
-var checkOperator = "";
-var checkCurrentNum = "";
-var flag = "justAdd";
-var count = 0;
+
+var display = document.querySelector(".display"); // CALCULATOR DISPLAY
+var currentNum = document.querySelector(".currentInput"); // EVERY NUMBER IS RECEIVED HERE
+var prevNum = document.querySelector(".prevInput"); // AFTER ADDING OPERATOR 'CURRENT NUMBER' & 'OPERATOR' WILL BE ASSIGNED TO THIS AS A PREVIOUS OPERATOIN
+var currentOperator = document.querySelector(".currentOperator"); // EVERY OPERATOR IS RECEIVED HERE
+var storingHistory = document.querySelector(".myHistory"); // DIV CONTAINER FOR HISTORY
+var toggleBTns = document.querySelector(".historyToggleBtns"); // BTNS TO SHOW & HIDE HISTORY
+var checkOperator = ""; // EVERY OPERATOR IS RECEIVED HERE
+var numForFurthurCalculation = ""; // TO COMPARE 'PREVIOUS INPUT' WITH 'CURRENT INPUT'. IF SAME, 'CURRENT INPUT' IS REPLACED BY "NEW INPUT"; OTHERWISE, 'CURRENT INPUT' IS CONCATENATED TO 'PREVIOUS INPUT'. COMPARISON OCCURS AT LINE #34. 👇
+var flag = "justAdd"; // DETERMINES IF NEW INPUT IS ADDED TO CURRENT OR REPLACES IT: 'justAdd' CONCATS, 'replaceAndAdd' CLEARS THEN ADDS AFTER CALCULATION COMPLETED
+
+//! HISTORY TAB FUNCTIONALITY
+var count = 0; // CONTROLS SHOW/HIDE FUNCTIONALITY OF HISTORY TAB
 toggleBTns.addEventListener("click", () => {
+  // SHOWS THE HISTORY BOX
   if (count == 0) {
     count = 1;
     toggleBTns.querySelector(".show").style.display = "none";
     toggleBTns.querySelector(".hide").style.display = "block";
     storingHistory.classList.add("showHistory");
+    // HIDES THE HISTORY BOX
   } else {
     count = 0;
     toggleBTns.querySelector(".show").style.display = "block";
@@ -25,48 +29,66 @@ toggleBTns.addEventListener("click", () => {
   }
 });
 
-//! ADDING NUMBER TO THE DISPLAY
-function addNumber(num) {
+//!  FUNCTION TO RECEIVE INPUT AND STORES IT IN 'currentNum' AND THEN DISPLAYS IT
+function addNumber(num = "0") {
+  // CONDITION TO EMPTY DISPLAY AFTER CALCULATION COMPELETION
   if (flag == "replaceAndAdd") {
     prevNum.innerHTML = "";
   }
+
+  // CONDITON TO EMPTY DISPLAY & ADD NEW INPUT
   if (
-    checkCurrentNum == currentNum.innerHTML ||
-    currentNum.innerHTML == "0" ||
-    flag == "replaceAndAdd"
+    flag == "replaceAndAdd" || // IF CALCULATION IS COMPELETED 👇
+    numForFurthurCalculation == currentNum.innerHTML || // IF currentNum & 'PREVIOUS NUM' ARE SAME 👇
+    currentNum.innerHTML == "0" // IF CURRENT NUM IS '0' 👇
   ) {
+    // REPLACE 'CURRENT NUM' BY NEW INPUT
     currentNum.innerHTML = num;
     flag = "justAdd";
-  } else {
+  }
+  // OTHERWISE CONCATE NEW INPUT WITH PREVIOUS INPUT
+  else {
     currentNum.innerHTML += num;
   }
 }
+addNumber(); // FUNCTION IS CALLED BY DEFAULT TO SHOW '0' IN DISPLAY
 
-//! ADDING OPERATOR
+//! FUNCTION TO CLEAR DISPLAY, DELETE LAST DIGIT OF currentNum, STORE OTHER OPERATORS IN checkOperator
+//! DISPLAYS currentNum AS PREVIOUS INPUT ALONG WITH OPERATOR, STORES currentNum IN numForComparison FOR FURTHER CALCULATIONS
+
 function addOperator(ope) {
+  // CLEARING DISPLAY FOR 'CE'
   if (ope == "CE") {
     currentNum.innerHTML = "0";
     currentOperator.innerHTML = "";
     prevNum.innerHTML = "";
-    checkCurrentNum = "";
+    numForFurthurCalculation = "";
     checkOperator = "";
-  } else if (ope == "AC") {
-    currentNum.innerHTML = currentNum.innerHTML.slice(
-      0,
-      currentNum.innerHTML.length - 1
-    );
-  } else {
+  } // DELETING LAST DIGIT OF CURRENT INPUT FOR 'AC'
+  else if (ope == "AC") {
+    if (currentNum.innerHTML.length > 1) {
+      currentNum.innerHTML = currentNum.innerHTML.slice(0, -1);
+    } else {
+      currentNum.innerHTML = 0;
+    }
+  } // ADDING OTHER OPERATOR IN CHECKOPERATOR, DISPLAYIN OPERATOR AND CURRENT INPUT AS A PREVIOUS INPUT
+  else {
     checkOperator = ope;
     prevNum.innerHTML = currentNum.innerHTML + checkOperator;
-    checkCurrentNum = currentNum.innerHTML;
+    // STORING currentNum IN numForComparison FOR FURTHER CALCULATIONS
+    numForFurthurCalculation = currentNum.innerHTML;
   }
 }
 
+//! FUNCTION TO PERFORM CALCULATIONS BASED ON REMAINING OPERATORS
+//! UPDATES FLAG TO 'replaceAndAdd' AFTER CALCULATION
+//! STORES CALCULATION IN HISTORY
 function sum() {
   var result = "";
-  var prevValue = `${checkCurrentNum} ${checkOperator} ${currentNum.innerHTML} =`;
-  var num1 = Number(checkCurrentNum);
+  var prevValue = `${numForFurthurCalculation} ${checkOperator} ${currentNum.innerHTML} =`;
   var num2 = Number(currentNum.innerHTML);
+  var num1 = Number(numForFurthurCalculation);
+  // FUNCTION TO PERFORM CALCULATIONS
   if (checkOperator == "*") {
     result = num1 * num2;
   } else if (checkOperator == "+") {
@@ -78,9 +100,12 @@ function sum() {
   } else if (checkOperator == "%") {
     result = num1 % num2;
   }
+  // UPDATES FLAG
   flag = "replaceAndAdd";
+  // DISPLAYING RESULT
   prevNum.innerHTML = prevValue;
   currentNum.innerHTML = result;
+  // ADDING CALCULATION IN HISTORY
   storingHistory.innerHTML += `<p class="historyPart">${prevValue} <br> <span class='mainResult'>${result}</span></p>`;
 }
 
