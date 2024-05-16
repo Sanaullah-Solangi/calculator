@@ -50,7 +50,7 @@ function addOperator(ope) {
     prevNum.innerHTML = "";
     checkCurrentNum = "";
     checkOperator = "";
-  } else if (ope == "DEl") {
+  } else if (ope == "AC") {
     currentNum.innerHTML = currentNum.innerHTML.slice(
       0,
       currentNum.innerHTML.length - 1
