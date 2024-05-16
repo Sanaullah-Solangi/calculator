@@ -31,17 +31,21 @@ toggleBTns.addEventListener("click", () => {
 
 //!  FUNCTION TO RECEIVE INPUT AND STORES IT IN 'currentNum' AND THEN DISPLAYS IT
 function addNumber(num = "0") {
-  // CONDITION TO EMPTY DISPLAY AFTER CALCULATION COMPELETION
+  // CONDITION TO EMPTY PREVIOUS INPUT AFTER CALCULATION COMPELETION
   if (flag == "replaceAndAdd") {
     prevNum.innerHTML = "";
   }
 
-  // CONDITON TO EMPTY DISPLAY & ADD NEW INPUT
+  // WHEN ANY INPUT IS ADDED TO THE DISPLAY 'ENTER VALID INPUT' IS REMOVED
+  if (prevNum.innerHTML == "Enter Valid input") {
+    prevNum.innerHTML = "";
+  }
   if (
     flag == "replaceAndAdd" || // IF CALCULATION IS COMPELETED 👇
     numForFurthurCalculation == currentNum.innerHTML || // IF currentNum & 'PREVIOUS NUM' ARE SAME 👇
     currentNum.innerHTML == "0" // IF CURRENT NUM IS '0' 👇
   ) {
+    // CONDITON TO EMPTY CURRENT INPUT & ADD NEW INPUT
     // REPLACE 'CURRENT NUM' BY NEW INPUT
     currentNum.innerHTML = num;
     flag = "justAdd";
@@ -53,7 +57,7 @@ function addNumber(num = "0") {
 }
 addNumber(); // FUNCTION IS CALLED BY DEFAULT TO SHOW '0' IN DISPLAY
 
-//! FUNCTION TO CLEAR DISPLAY, DELETE LAST DIGIT OF currentNum, STORE OTHER OPERATORS IN checkOperator
+//! FUNCTION TO STORE AND RECEIVE OTHER OPERATORS IN checkOperator, CLEAR DISPLAY, DELETE LAST DIGIT OF currentNum
 //! DISPLAYS currentNum AS PREVIOUS INPUT ALONG WITH OPERATOR, STORES currentNum IN numForComparison FOR FURTHER CALCULATIONS
 
 function addOperator(ope) {
@@ -73,10 +77,17 @@ function addOperator(ope) {
     }
   } // ADDING OTHER OPERATOR IN CHECKOPERATOR, DISPLAYIN OPERATOR AND CURRENT INPUT AS A PREVIOUS INPUT
   else {
-    checkOperator = ope;
-    prevNum.innerHTML = currentNum.innerHTML + checkOperator;
-    // STORING currentNum IN numForComparison FOR FURTHER CALCULATIONS
-    numForFurthurCalculation = currentNum.innerHTML;
+    // CONDITION TO CHECK IF PREVIOUS OPERATOR AND NEW RECEIVED OPERATOR ARE SAME OR NOT
+    // IF YES CALCULATION WILL OCCURED
+    if (checkOperator == ope) {
+      sum();
+      // OTHERWISE OPERATOR WILL BE REPLACED
+    } else {
+      checkOperator = ope;
+      prevNum.innerHTML = currentNum.innerHTML + checkOperator;
+      // STORING currentNum IN numForFurthurCalculation FOR FURTHER CALCULATIONS
+      numForFurthurCalculation = currentNum.innerHTML;
+    }
   }
 }
 
@@ -84,29 +95,36 @@ function addOperator(ope) {
 //! UPDATES FLAG TO 'replaceAndAdd' AFTER CALCULATION
 //! STORES CALCULATION IN HISTORY
 function sum() {
-  var result = "";
-  var prevValue = `${numForFurthurCalculation} ${checkOperator} ${currentNum.innerHTML} =`;
-  var num2 = Number(currentNum.innerHTML);
-  var num1 = Number(numForFurthurCalculation);
-  // FUNCTION TO PERFORM CALCULATIONS
-  if (checkOperator == "*") {
-    result = num1 * num2;
-  } else if (checkOperator == "+") {
-    result = num1 + num2;
-  } else if (checkOperator == "-") {
-    result = num1 - num2;
-  } else if (checkOperator == "/") {
-    result = num1 / num2;
-  } else if (checkOperator == "%") {
-    result = num1 % num2;
+  // sum() FUNCTION WILL WORK ONLY WHEN THERE IS ANY VALUE IN FIELDS OTHERWISE WON'T
+  if (currentNum.innerHTML && prevNum.innerHTML) {
+    var result = "";
+    var prevValue = `${numForFurthurCalculation} ${checkOperator} ${currentNum.innerHTML} =`;
+    var num1 = Number(numForFurthurCalculation);
+    var num2 = Number(currentNum.innerHTML);
+    // CONDITION TO PERFORM CALCULATIONS
+    if (checkOperator == "*") {
+      result = num1 * num2;
+    } else if (checkOperator == "+") {
+      result = num1 + num2;
+    } else if (checkOperator == "-") {
+      result = num1 - num2;
+    } else if (checkOperator == "/") {
+      result = num1 / num2;
+    } else if (checkOperator == "%") {
+      result = num1 % num2;
+    }
+    // UPDATES FLAG TO EMPTY DISPLAY
+    flag = "replaceAndAdd";
+    // DISPLAYING RESULT
+    prevNum.innerHTML = prevValue;
+    currentNum.innerHTML = result;
+    // ADDING CALCULATION IN HISTORY
+    storingHistory.innerHTML += `<p class="historyPart">${prevValue} <br> <span class='mainResult'>${result}</span></p>`;
   }
-  // UPDATES FLAG
-  flag = "replaceAndAdd";
-  // DISPLAYING RESULT
-  prevNum.innerHTML = prevValue;
-  currentNum.innerHTML = result;
-  // ADDING CALCULATION IN HISTORY
-  storingHistory.innerHTML += `<p class="historyPart">${prevValue} <br> <span class='mainResult'>${result}</span></p>`;
+  // IF WITH EMPTY DISPLAY sum() IS CALLED 'ENTER VALID INPUT' WILL APEAR
+  else {
+    prevNum.innerHTML = "Enter Valid input";
+  }
 }
 
 //*  Old Calculator Code (commented out)
