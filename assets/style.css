@@ -128,7 +128,7 @@ body {
 }
 
 .myHistory {
-  background-color: rgb(231, 201, 249);
+  background-color: rgb(48, 48, 48);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: absolute;
   bottom: 0%;
@@ -143,16 +143,12 @@ body {
   -moz-transition: all 0.2s linear;
   -ms-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
-  /*display: none;
-  */:;
 }
 
 .calculatorContainer > .showHistory {
   height: 70%;
   overflow-y: scroll;
   visibility: visible;
-  /*display: block;
-  */
 }
 
 .myHistory::-webkit-scrollbar {
@@ -163,12 +159,14 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 .historyPart {
+  color: white;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
   padding: 5px 15px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(220, 220, 220, 0.2);
 }
 .historyPart > .mainResult {
   font-weight: bold;
+  color: rgb(162, 81, 212);
 }

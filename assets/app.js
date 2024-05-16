@@ -56,8 +56,8 @@ function addOperator(ope) {
       currentNum.innerHTML.length - 1
     );
   } else {
-    prevNum.innerHTML = currentNum.innerHTML + ope;
     checkOperator = ope;
+    prevNum.innerHTML = currentNum.innerHTML + checkOperator;
     checkCurrentNum = currentNum.innerHTML;
   }
 }
