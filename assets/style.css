@@ -21,6 +21,7 @@ body {
   gap: 10px;
   position: relative;
   background-color: white;
+  overflow: hidden;
 }
 
 .calculatorContainer,
@@ -126,9 +127,10 @@ body {
   color: white;
   font-size: 1.9rem;
 }
+/*!=============== HISTORY TAB ==================*/
 
 .myHistory {
-  background-color: rgb(48, 48, 48);
+  background-color: rgb(55, 55, 55);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: absolute;
   bottom: 0%;
@@ -153,20 +155,92 @@ body {
 
 .myHistory::-webkit-scrollbar {
   width: 5px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 1);
 }
 .myHistory::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(162, 81, 212);
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
-.historyPart {
+.historyContent {
+  justify-content: space-between;
+  padding: 5px 15px;
+  border-bottom: 1px solid rgba(220, 220, 220, 0.2);
+}
+.historyContent,
+.historyContent > i,
+.deleteAllBtn {
+  display: flex;
+  align-items: center;
+}
+.historyContent > .historyPart {
   color: white;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  padding: 5px 15px;
-  border-bottom: 1px solid rgba(220, 220, 220, 0.2);
 }
-.historyPart > .mainResult {
+.historyContent > .historyPart > .mainResult {
   font-weight: bold;
   color: rgb(162, 81, 212);
+  font-size: 1.2rem;
+}
+.historyContent > i {
+  color: rgb(162, 81, 212);
+  background-color: rgb(162, 81, 212);
+  background-color: white;
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+}
+
+.historyContent > i,
+.deleteAllBtn {
+  justify-content: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  cursor: pointer;
+}
+.historyContent > i:hover {
+  color: white;
+  background-color: rgb(162, 81, 212);
+}
+
+.calculatorContainer > .deleteAllBtn {
+  position: absolute;
+  bottom: -100%;
+  left: 50%;
+  background-color: rgb(246, 40, 40);
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%);
+  -webkit-transform: translate(-50%);
+  -moz-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+  -o-transform: translate(-50%);
+  transition: all 0.5s linear;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+}
+
+.calculatorContainer > .showDeleteAllBtn {
+  bottom: 5%;
+}
+
+.calculatorContainer > .deleteAllBtn:hover {
+  background-color: red;
+}
+.deleteAllBtn > i {
+  font-size: 2rem;
+  color: red;
+  filter: drop-shadow(0 0 2px rgb(0, 0, 0));
+  -webkit-filter: drop-shadow(0 0 2px rgb(0, 0, 0));
+}
+
+.deleteAllBtn:hover i {
+  color: rgb(246, 40, 40);
 }

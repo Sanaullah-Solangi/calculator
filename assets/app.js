@@ -10,16 +10,20 @@ var toggleBTns = document.querySelector(".historyToggleBtns"); // BTNS TO SHOW &
 var checkOperator = ""; // EVERY OPERATOR IS RECEIVED HERE
 var numForFurthurCalculation = ""; // TO COMPARE 'PREVIOUS INPUT' WITH 'CURRENT INPUT'. IF SAME, 'CURRENT INPUT' IS REPLACED BY "NEW INPUT"; OTHERWISE, 'CURRENT INPUT' IS CONCATENATED TO 'PREVIOUS INPUT'. COMPARISON OCCURS AT LINE #34. 👇
 var flag = "justAdd"; // DETERMINES IF NEW INPUT IS ADDED TO CURRENT OR REPLACES IT: 'justAdd' CONCATS, 'replaceAndAdd' CLEARS THEN ADDS AFTER CALCULATION COMPLETED
-
+var showDeleteAllBtn = document.querySelector(".deleteAllBtn");
+var operators = ["+", "-", "/", "*", "%"];
 //! HISTORY TAB FUNCTIONALITY
 var count = 0; // CONTROLS SHOW/HIDE FUNCTIONALITY OF HISTORY TAB
 toggleBTns.addEventListener("click", () => {
+  // CALLING THE FUNCTION TO SHOW THE 'CLEAR ALL HISTORY' BUTTON
+  showDelAllHistoryBtn();
   // SHOWS THE HISTORY BOX
   if (count == 0) {
     count = 1;
     toggleBTns.querySelector(".show").style.display = "none";
     toggleBTns.querySelector(".hide").style.display = "block";
     storingHistory.classList.add("showHistory");
+
     // HIDES THE HISTORY BOX
   } else {
     count = 0;
@@ -77,17 +81,25 @@ function addOperator(ope) {
     }
   } // ADDING OTHER OPERATOR IN CHECKOPERATOR, DISPLAYIN OPERATOR AND CURRENT INPUT AS A PREVIOUS INPUT
   else {
-    // CONDITION TO CHECK IF PREVIOUS OPERATOR AND NEW RECEIVED OPERATOR ARE SAME OR NOT
-    // IF YES CALCULATION WILL OCCURED
-    if (checkOperator == ope) {
-      sum();
-      // OTHERWISE OPERATOR WILL BE REPLACED
-    } else {
-      checkOperator = ope;
-      prevNum.innerHTML = currentNum.innerHTML + checkOperator;
-      // STORING currentNum IN numForFurthurCalculation FOR FURTHER CALCULATIONS
-      numForFurthurCalculation = currentNum.innerHTML;
+    for (var i = 0; i < operators.length; i++) {
+      if (!checkOperator) {
+        checkOperator = ope;
+        prevNum.innerHTML = currentNum.innerHTML + checkOperator;
+        // STORING currentNum IN numForFurthurCalculation FOR FURTHER CALCULATIONS
+        numForFurthurCalculation = currentNum.innerHTML;
+        break;
+      } else if (operators.indexOf(ope) != -1) {
+        sum();
+        checkOperator = ope;
+      }
     }
+    // OTHERWISE OPERATOR WILL BE REPLACED
+    // } else {
+    //   checkOperator = ope;
+    //   prevNum.innerHTML = currentNum.innerHTML + checkOperator;
+    //   // STORING currentNum IN numForFurthurCalculation FOR FURTHER CALCULATIONS
+    //   numForFurthurCalculation = currentNum.innerHTML;
+    // }
   }
 }
 
@@ -119,14 +131,35 @@ function sum() {
     prevNum.innerHTML = prevValue;
     currentNum.innerHTML = result;
     // ADDING CALCULATION IN HISTORY
-    storingHistory.innerHTML += `<p class="historyPart">${prevValue} <br> <span class='mainResult'>${result}</span></p>`;
+    storingHistory.innerHTML += `<div class="historyContent"><div class="historyPart">${prevValue} <br> <span class='mainResult'>${result}</span></div><i class="fa-solid fa-trash" onclick="delHistory(this)"></i></div>`;
   }
-  // IF WITH EMPTY DISPLAY sum() IS CALLED 'ENTER VALID INPUT' WILL APEAR
+  // IF WITH EMPTY DISPLAY sum() IS CALLED, 'ENTER VALID INPUT' WILL BE SHOWING IN DISPLAYs
   else {
     prevNum.innerHTML = "Enter Valid input";
   }
 }
 
+//! FUNCTION TO DELETE A SPECIFIC ENTRY FROM THE HISTORY
+
+function delHistory(val) {
+  val.parentElement.remove();
+  // CALLING THE FUNCTION TO Hide THE 'CLEAR ALL HISTORY' BUTTON
+  showDelAllHistoryBtn();
+}
+
+//! FUNCTION TO SHOW & HIDE THE 'CLEAR ALL HISTORY' BUTTON
+function showDelAllHistoryBtn() {
+  if (storingHistory.innerHTML) {
+    showDeleteAllBtn.classList.add("showDeleteAllBtn");
+  } else {
+    showDeleteAllBtn.classList.remove("showDeleteAllBtn");
+  }
+}
+
+showDeleteAllBtn.addEventListener("click", () => {
+  storingHistory.innerHTML = "";
+  showDelAllHistoryBtn();
+});
 //*  Old Calculator Code (commented out)
 /*
 //* SECOND STEP : 👇
