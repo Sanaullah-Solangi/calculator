@@ -81,25 +81,10 @@ function addOperator(ope) {
     }
   } // ADDING OTHER OPERATOR IN CHECKOPERATOR, DISPLAYIN OPERATOR AND CURRENT INPUT AS A PREVIOUS INPUT
   else {
-    for (var i = 0; i < operators.length; i++) {
-      if (!checkOperator) {
-        checkOperator = ope;
-        prevNum.innerHTML = currentNum.innerHTML + checkOperator;
-        // STORING currentNum IN numForFurthurCalculation FOR FURTHER CALCULATIONS
-        numForFurthurCalculation = currentNum.innerHTML;
-        break;
-      } else if (operators.indexOf(ope) != -1) {
-        sum();
-        checkOperator = ope;
-      }
-    }
-    // OTHERWISE OPERATOR WILL BE REPLACED
-    // } else {
-    //   checkOperator = ope;
-    //   prevNum.innerHTML = currentNum.innerHTML + checkOperator;
-    //   // STORING currentNum IN numForFurthurCalculation FOR FURTHER CALCULATIONS
-    //   numForFurthurCalculation = currentNum.innerHTML;
-    // }
+    checkOperator = ope;
+    prevNum.innerHTML = currentNum.innerHTML + checkOperator;
+    // STORING currentNum IN numForComparison FOR FURTHER CALCULATIONS
+    numForFurthurCalculation = currentNum.innerHTML;
   }
 }
 
@@ -107,9 +92,9 @@ function addOperator(ope) {
 //! UPDATES FLAG TO 'replaceAndAdd' AFTER CALCULATION
 //! STORES CALCULATION IN HISTORY
 function sum() {
+  var result = "";
   // sum() FUNCTION WILL WORK ONLY WHEN THERE IS ANY VALUE IN FIELDS OTHERWISE WON'T
-  if (currentNum.innerHTML && prevNum.innerHTML) {
-    var result = "";
+  if (currentNum.innerHTML && numForFurthurCalculation) {
     var prevValue = `${numForFurthurCalculation} ${checkOperator} ${currentNum.innerHTML} =`;
     var num1 = Number(numForFurthurCalculation);
     var num2 = Number(currentNum.innerHTML);
@@ -130,6 +115,7 @@ function sum() {
     // DISPLAYING RESULT
     prevNum.innerHTML = prevValue;
     currentNum.innerHTML = result;
+    numForFurthurCalculation = result;
     // ADDING CALCULATION IN HISTORY
     storingHistory.innerHTML += `<div class="historyContent"><div class="historyPart">${prevValue} <br> <span class='mainResult'>${result}</span></div><i class="fa-solid fa-trash" onclick="delHistory(this)"></i></div>`;
   }
@@ -144,21 +130,23 @@ function sum() {
 function delHistory(val) {
   val.parentElement.remove();
   // CALLING THE FUNCTION TO Hide THE 'CLEAR ALL HISTORY' BUTTON
-  showDelAllHistoryBtn();
+  setTimeout(showDelAllHistoryBtn, 300);
+  // showDelAllHistoryBtn();
 }
 
 //! FUNCTION TO SHOW & HIDE THE 'CLEAR ALL HISTORY' BUTTON
 function showDelAllHistoryBtn() {
-  if (storingHistory.innerHTML) {
+  if (storingHistory.innerHTML && count == 0) {
     showDeleteAllBtn.classList.add("showDeleteAllBtn");
   } else {
     showDeleteAllBtn.classList.remove("showDeleteAllBtn");
   }
 }
 
+//! FUNCTION TO CLEAR ALL HISTORY & HIDE 'ALL CLEAR' BUTTON
 showDeleteAllBtn.addEventListener("click", () => {
   storingHistory.innerHTML = "";
-  showDelAllHistoryBtn();
+  setTimeout(showDelAllHistoryBtn, 300);
 });
 //*  Old Calculator Code (commented out)
 /*
